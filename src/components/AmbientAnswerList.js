@@ -2,15 +2,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { db } from "@/firebase";
-import {
-  where,
-  collection,
-  doc,
-  getDoc,
-  updateDoc,
-  query,
-  getDocs,
-} from "firebase/firestore";
+import { where, collection, doc, getDoc, updateDoc, query, getDocs } from "firebase/firestore";
 import mbtiColors from "../data/mbtiColors.js";
 
 const userCollection = collection(db, "users");
@@ -29,14 +21,11 @@ const AmbientAnswerList = ({ answer }) => {
     const answerSnapShot = await getDoc(answerRef);
     const answerData = answerSnapShot.data();
     const likedAnswerData = Boolean(
-      answerData.likeUsers.length > 0 &&
-        answerData.likeUsers.find((i) => i === data.user.id)
+      answerData.likeUsers.length > 0 && answerData.likeUsers.find((i) => i === data.user.id)
     );
 
     if (likedAnswerData) {
-      const updatedLikeUsers = answerData.likeUsers.filter(
-        (userId) => userId !== data.user.id
-      );
+      const updatedLikeUsers = answerData.likeUsers.filter((userId) => userId !== data.user.id);
       await updateDoc(answerRef, { likeUsers: updatedLikeUsers });
       setLiked(false);
       setLikedUserNum(updatedLikeUsers.length);
@@ -58,10 +47,7 @@ const AmbientAnswerList = ({ answer }) => {
   const truncatedContent = truncateText(answer.content, 50); // 글자 제한을 50으로 설정
 
   const getQuestion = async () => {
-    const q = query(
-      collection(db, "questions"),
-      where("date", "==", answer.questionDate)
-    );
+    const q = query(collection(db, "questions"), where("date", "==", answer.questionDate));
     const querySnapshot = await getDocs(q);
     const questionData = querySnapshot.docs[0]?.data(); // 수정된 부분
     if (questionData) {
@@ -81,10 +67,7 @@ const AmbientAnswerList = ({ answer }) => {
 
   useEffect(() => {
     if (data) {
-      setLiked(
-        answer.likeUsers.length > 0 &&
-          answer.likeUsers.find((i) => i === data.user.id)
-      );
+      setLiked(answer.likeUsers.length > 0 && answer.likeUsers.find((i) => i === data.user.id));
       getQuestion();
     }
   }, []);
@@ -95,38 +78,30 @@ const AmbientAnswerList = ({ answer }) => {
 
   return (
     <div
-      className="flex flex-col my-2 justify-between text-neutral-800 p-3 w-full rounded"
+      className="flex flex-col justify-between w-full p-3 my-2 rounded text-neutral-800"
       style={{ backgroundColor: bgColor }} // 배경색을 동적으로 설정
     >
       <div className="mb-7">
         {question && (
           <>
-            <div className="flex text-xs">{question.date}</div>
-            <div className="flex text-base">Q: {question.content}</div>
+            <div className="flex text-xs">{question?.date}</div>
+            <div className="flex text-base">Q: {question?.content}</div>
           </>
         )}
       </div>
-      <div className="flex flex-col justify-end items-end my-0 w-full">
-        <Link
-          href="/anotherUser/[id]"
-          as={`/anotherUser/${answer.user.id}`}
-          className="w-full"
-        >
-          <div className="text-base text-center mb-3 h-24 overflow-scroll bg-white/40 w-full">
+      <div className="flex flex-col items-end justify-end w-full my-0">
+        <Link href="/anotherUser/[id]" as={`/anotherUser/${answer.user.id}`} className="w-full">
+          <div className="w-full h-24 mb-3 overflow-scroll text-base text-center bg-white/40">
             " {truncatedContent} "
           </div>
-          <div className="text-end text-xs italic flex flex-row items-center justify-end">
-            by.{" "}
-            <img
-              src={`/images/MBTIcharacters/${answer.user.mbti}.png`}
-              className="w-7"
-            />
+          <div className="flex flex-row items-center justify-end text-xs italic text-end">
+            by. <img src={`/images/MBTIcharacters/${answer.user.mbti}.png`} className="w-7" />
             {answer.user.mbti}
           </div>
         </Link>
         <button
           onClick={() => likeAnswer(answer.id)}
-          className=" my-0 px-3 py-1 text-black text-xs bg-neutral-100 bg-opacity-50"
+          className="px-3 py-1 my-0 text-xs text-black bg-opacity-50  bg-neutral-100"
         >
           {liked ? "❤️" : "🤍"} {likedUserNum}
         </button>
