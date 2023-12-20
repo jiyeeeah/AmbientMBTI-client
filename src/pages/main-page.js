@@ -21,9 +21,7 @@ const Main = ({ isAnsweredToday }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [bgColor, setBgColor] = useState("#E5E7EB"); // 기본 배경색 설정
 
-  const formattedDate = new Date(
-    currentDate.getTime() - new Date().getTimezoneOffset() * 60000
-  )
+  const formattedDate = new Date(currentDate.getTime() - new Date().getTimezoneOffset() * 60000)
     .toISOString()
     .split("T")[0];
 
@@ -68,15 +66,14 @@ const Main = ({ isAnsweredToday }) => {
                 />
               </div>
             </div>
-
-            <div className="flex flex-col items-center justify-center basis-2/3 px-10 w-full">
+            <div className="flex flex-col items-center justify-center w-full px-10 basis-2/3">
               <TempAnswerList date={formattedDate} />
             </div>
           </div>
         </>
       ) : (
         <>
-          <div className="flex flex-col w-full mb-10 items-center">
+          <div className="flex flex-col items-center w-full mb-10">
             <img
               src="/images/Amber.png"
               alt="로그인 전 이미지"
@@ -89,7 +86,7 @@ const Main = ({ isAnsweredToday }) => {
               }}
             />
             <div
-              className="basis-1/2 w-full text-center mt-5  "
+              className="w-full mt-5 text-center basis-1/2 "
               style={{
                 display: "block",
                 fontWeight: "bold",
@@ -102,7 +99,7 @@ const Main = ({ isAnsweredToday }) => {
             </div>
 
             <div
-              className="basis-1/2 mb-1 w-full text-center mt-1 textAlign:'center'"
+              className="w-full mt-1 mb-1 text-center basis-1/2 textAlign:'center'"
               style={{
                 marginLeft: "-17%",
                 display: "block",

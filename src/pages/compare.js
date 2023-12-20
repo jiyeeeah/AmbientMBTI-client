@@ -1,14 +1,7 @@
 import Layout from "@/components/Layout";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
-import {
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  collection,
-  where,
-} from "firebase/firestore";
+import { doc, getDoc, getDocs, query, collection, where } from "firebase/firestore";
 import { db } from "@/firebase/index.js";
 import MbtiSelector from "../components/mbtiSelector";
 import Footer from "../components/Footer";
@@ -25,9 +18,7 @@ export default function Compare() {
   const questionCollection = collection(db, "questions");
   const [question, setQuestion] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
-  const formattedDate = new Date(
-    currentDate.getTime() - new Date().getTimezoneOffset() * 60000
-  )
+  const formattedDate = new Date(currentDate.getTime() - new Date().getTimezoneOffset() * 60000)
     .toISOString()
     .split("T")[0];
 
@@ -84,25 +75,25 @@ export default function Compare() {
         {isLoggedIn ? (
           <>
             <div className="flex flex-col">
-              <div className="flex flex-col items-center border p-5 ">
-                <div className="flex flex-row w-full  items-center justify-center">
+              <div className="flex flex-col items-center p-5 border ">
+                <div className="flex flex-row items-center justify-center w-full">
                   {currentDate.toISOString().split("T")[0] == "2023-06-01" ? (
-                    <div className="m-0 p-0 mr-6"></div>
+                    <div className="p-0 m-0 mr-6"></div>
                   ) : (
-                    <button className="m-0 p-0 mr-2" onClick={goPrevious}>
+                    <button className="p-0 m-0 mr-2" onClick={goPrevious}>
                       ◀
                     </button>
                   )}
 
-                  <div className="text-sm text-gray-600 text-center whitespace-normal">
+                  <div className="text-sm text-center text-gray-600 whitespace-normal">
                     {question.date}
                   </div>
                   {currentDate.toISOString().split("T")[0] ==
                   new Date().toISOString().split("T")[0] ? (
-                    <div className="m-0 p-0 ml-6"> </div>
+                    <div className="p-0 m-0 ml-6"> </div>
                   ) : (
                     <>
-                      <button className="m-0 p-0 ml-2" onClick={goNext}>
+                      <button className="p-0 m-0 ml-2" onClick={goNext}>
                         ▶
                       </button>
                     </>
@@ -112,48 +103,30 @@ export default function Compare() {
               </div>
 
               <div className="flex flex-row">
-                <div className="w-full border flex flex-col border-3 basis-1/2 items-center p-2">
-                  <div className="w-3/4 flex flex-col justify-center items-center mx-3">
+                <div className="flex flex-col items-center w-full p-2 border border-3 basis-1/2">
+                  <div className="flex flex-col items-center justify-center w-3/4 mx-3">
                     <div className="flex items-center">
-                      <img
-                        src={`/images/MBTIcharacters/${firstMbti}.png`}
-                        className="w-8"
-                      />
-                      <div className="text-xl font-bold mb-2">{firstMbti}</div>
+                      <img src={`/images/MBTIcharacters/${firstMbti}.png`} className="w-8" />
+                      <div className="mb-2 text-xl font-bold">{firstMbti}</div>
 
-                      <img
-                        src={`/images/MBTIcharacters/${firstMbti}.png`}
-                        className="w-8"
-                      />
+                      <img src={`/images/MBTIcharacters/${firstMbti}.png`} className="w-8" />
                     </div>
-                    <MbtiSelector
-                      defaultMbti={firstMbti}
-                      setDefaultMbti={setFirstMbti}
-                    />
+                    <MbtiSelector defaultMbti={firstMbti} setDefaultMbti={setFirstMbti} />
                   </div>
 
                   <div className="w-full">
                     <AnswerList mbti={firstMbti} date={formattedDate} />
                   </div>
                 </div>
-                <div className="w-full border flex flex-col border-3 basis-1/2 items-center p-2">
-                  <div className="w-3/4 flex flex-col justify-center items-center mx-3">
+                <div className="flex flex-col items-center w-full p-2 border border-3 basis-1/2">
+                  <div className="flex flex-col items-center justify-center w-3/4 mx-3">
                     <div className="flex items-center">
-                      <img
-                        src={`/images/MBTIcharacters/${secondMbti}.png`}
-                        className="w-8"
-                      />
-                      <div className="text-xl font-bold mb-2">{secondMbti}</div>
+                      <img src={`/images/MBTIcharacters/${secondMbti}.png`} className="w-8" />
+                      <div className="mb-2 text-xl font-bold">{secondMbti}</div>
 
-                      <img
-                        src={`/images/MBTIcharacters/${secondMbti}.png`}
-                        className="w-8"
-                      />
+                      <img src={`/images/MBTIcharacters/${secondMbti}.png`} className="w-8" />
                     </div>
-                    <MbtiSelector
-                      defaultMbti={secondMbti}
-                      setDefaultMbti={setSecondMbti}
-                    />
+                    <MbtiSelector defaultMbti={secondMbti} setDefaultMbti={setSecondMbti} />
                   </div>
                   <div className="w-full">
                     <AnswerList mbti={secondMbti} date={formattedDate} />
@@ -164,7 +137,7 @@ export default function Compare() {
           </>
         ) : (
           <>
-            <div className="flex flex-col w-full mb-10 items-center">
+            <div className="flex flex-col items-center w-full mb-10">
               <img
                 src="/images/Ambers.png"
                 alt="로그인 전 이미지"
@@ -177,7 +150,7 @@ export default function Compare() {
                 }}
               />
               <div
-                className="basis-1/2 w-full text-center mt-5  "
+                className="w-full mt-5 text-center basis-1/2 "
                 style={{
                   display: "block",
                   fontWeight: "bold",
@@ -189,7 +162,7 @@ export default function Compare() {
                 로그인 해주세요!
               </div>
               <div
-                className="basis-1/2 mb-1 w-full text-center mt-1 textAlign:'center'"
+                className="w-full mt-1 mb-1 text-center basis-1/2 textAlign:'center'"
                 style={{
                   marginLeft: "-17%",
                   display: "block",
